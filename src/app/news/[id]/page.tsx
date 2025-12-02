@@ -20,7 +20,7 @@ export async function generateMetadata({
   } catch {}
 
   return {
-    title: title,
+    title: title ?? 'News | Tokyo Pulse',
     description: 'News | Tokyo Pulse',
   }
 }

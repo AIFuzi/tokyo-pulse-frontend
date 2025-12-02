@@ -1,8 +1,12 @@
 'use client'
 
+import { AuthService } from '@/service/auth-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import AuthWrapper from '@/components/AuthWrapper'
 import { Button } from '@/components/common/ui/button'
 import {
@@ -14,9 +18,14 @@ import {
   FormLabel,
 } from '@/components/common/ui/form'
 import { Input } from '@/components/common/ui/input'
+import { Spinner } from '@/components/common/ui/spinner'
 import { loginSchema, TypeLoginSchema } from '@/schemas/login.schema'
 
 export default function LoginForm() {
+  const router = useRouter()
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<TypeLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -27,8 +36,21 @@ export default function LoginForm() {
 
   const { isValid } = form.formState
 
-  function onSubmit(values: TypeLoginSchema) {
-    console.log(values)
+  async function onSubmit(values: TypeLoginSchema) {
+    setIsLoading(true)
+
+    try {
+      await AuthService.login(values)
+      toast.success('Login successful')
+
+      router.push('/')
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error('Login error', { description: error.message })
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -87,9 +109,16 @@ export default function LoginForm() {
           <Button
             type="submit"
             className="w-full"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
           >
-            SignUp
+            {isLoading ? (
+              <>
+                <Spinner />
+                <span>Please wait</span>
+              </>
+            ) : (
+              'Login'
+            )}
           </Button>
         </form>
       </Form>

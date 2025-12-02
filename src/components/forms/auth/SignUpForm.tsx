@@ -1,7 +1,10 @@
 'use client'
 
+import { AuthService } from '@/service/auth-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import AuthWrapper from '@/components/AuthWrapper'
@@ -15,12 +18,17 @@ import {
   FormLabel,
 } from '@/components/common/ui/form'
 import { Input } from '@/components/common/ui/input'
+import { Spinner } from '@/components/common/ui/spinner'
 import {
   createAccountSchema,
   TypeCreateAccountSchema,
 } from '@/schemas/create-account.schema'
 
 export default function SignUpForm() {
+  const router = useRouter()
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<TypeCreateAccountSchema>({
     resolver: zodResolver(createAccountSchema),
     defaultValues: {
@@ -32,8 +40,21 @@ export default function SignUpForm() {
 
   const { isValid } = form.formState
 
-  function onSubmit(values: TypeCreateAccountSchema) {
-    console.log(values)
+  async function onSubmit(values: TypeCreateAccountSchema) {
+    setIsLoading(true)
+
+    try {
+      await AuthService.register(values)
+      toast.success('Register successfully.')
+
+      router.push('/')
+    } catch (e) {
+      if (e instanceof Error) {
+        toast.error('Error creating account', { description: e.message })
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -109,9 +130,16 @@ export default function SignUpForm() {
           <Button
             type="submit"
             className="w-full"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
           >
-            SignUp
+            {isLoading ? (
+              <>
+                <Spinner />
+                <span>Please wait</span>
+              </>
+            ) : (
+              'SignUp'
+            )}
           </Button>
         </form>
       </Form>
