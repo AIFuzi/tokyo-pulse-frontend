@@ -1,7 +1,7 @@
-import { Bell, Search, User } from 'lucide-react'
+import { Bell, Search } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/common/ui/button'
 import Container from '@/components/Container'
+import AuthMenu from '@/components/shared/Header/AuthMenu'
 
 export default function Header() {
   return (
@@ -18,14 +18,7 @@ export default function Header() {
             </h1>
           </Link>
         </div>
-        <div className="flex gap-x-3">
-          <Link href="/signup">
-            <Button>
-              <User /> SignUp
-            </Button>
-          </Link>
-          <Button variant="outline">Subscribe</Button>
-        </div>
+        <AuthMenu />
       </Container>
     </header>
   )

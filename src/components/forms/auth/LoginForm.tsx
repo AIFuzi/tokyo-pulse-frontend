@@ -19,10 +19,12 @@ import {
 } from '@/components/common/ui/form'
 import { Input } from '@/components/common/ui/input'
 import { Spinner } from '@/components/common/ui/spinner'
+import { useAuth } from '@/hooks/useAuth'
 import { loginSchema, TypeLoginSchema } from '@/schemas/login.schema'
 
 export default function LoginForm() {
   const router = useRouter()
+  const { auth } = useAuth()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -43,6 +45,7 @@ export default function LoginForm() {
       await AuthService.login(values)
       toast.success('Login successful')
 
+      auth()
       router.push('/')
     } catch (error) {
       if (error instanceof Error) {
