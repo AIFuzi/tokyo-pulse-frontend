@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>TokyoPulse</div>
+  return <div className="h-[10000px]">TokyoPulse</div>
 }
