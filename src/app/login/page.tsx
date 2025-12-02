@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
 import Container from '@/components/Container'
-import SignUpForm from '@/components/forms/auth/SignUpForm'
+import LoginForm from '@/components/forms/auth/LoginForm'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'SignUp | Tokyo Pulse',
-    description: 'SignUp | Tokyo Pulse',
+    title: 'Login | Tokyo Pulse',
+    description: 'Login | Tokyo Pulse',
     robots: {
       index: false,
       follow: false,
@@ -13,10 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
     <Container className="h-screen">
-      <SignUpForm />
+      <LoginForm />
     </Container>
   )
 }

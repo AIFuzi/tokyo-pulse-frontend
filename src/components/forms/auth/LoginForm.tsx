@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import AuthWrapper from '@/components/AuthWrapper'
 import { Button } from '@/components/common/ui/button'
 import {
@@ -15,54 +14,33 @@ import {
   FormLabel,
 } from '@/components/common/ui/form'
 import { Input } from '@/components/common/ui/input'
-import {
-  createAccountSchema,
-  TypeCreateAccountSchema,
-} from '@/schemas/create-account.schema'
+import { loginSchema, TypeLoginSchema } from '@/schemas/login.schema'
 
-export default function SignUpForm() {
-  const form = useForm<TypeCreateAccountSchema>({
-    resolver: zodResolver(createAccountSchema),
+export default function LoginForm() {
+  const form = useForm<TypeLoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       login: '',
-      name: '',
       password: '',
     },
   })
 
   const { isValid } = form.formState
 
-  function onSubmit(values: TypeCreateAccountSchema) {
+  function onSubmit(values: TypeLoginSchema) {
     console.log(values)
   }
 
   return (
     <AuthWrapper
-      title="SignUp"
-      description="SignUp for more news"
+      title="Login"
+      description="Login for more news"
     >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4"
         >
-          <FormField
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    placeholder="JaneDoe"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Your public display name</FormDescription>
-              </FormItem>
-            )}
-            name="name"
-          />
           <FormField
             control={form.control}
             render={({ field }) => (
@@ -98,12 +76,12 @@ export default function SignUpForm() {
             )}
             name="password"
           />
-          <Link href="/login">
+          <Link href="/signup">
             <Button
               className="w-full"
               variant="link"
             >
-              Do you have an account?
+              No account?
             </Button>
           </Link>
           <Button
