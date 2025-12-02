@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import Container from '@/components/Container'
+import SignUpForm from '@/components/forms/auth/SignUpForm'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -12,5 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <div>SignUp</div>
+  return (
+    <Container className="h-screen">
+      <SignUpForm />
+    </Container>
+  )
 }
