@@ -7,4 +7,7 @@ export interface NewsModel {
   userId: string
   createdAt: string
   updatedAt: string
+  author?: {
+    name: string
+  }
 }

@@ -47,7 +47,7 @@ export default async function OneNewsPage({ params }: PageProps) {
             <span className="text-muted-foreground font-semibold">
               12 april 2025
             </span>
-            <span className="font-semibold">Author: _NAME_</span>
+            <span className="font-semibold">Author: {news.author?.name}</span>
           </div>
           <div className="mt-2 mb-2 w-1/2">
             <h1 className="text-center text-4xl font-bold">{news.title}</h1>
