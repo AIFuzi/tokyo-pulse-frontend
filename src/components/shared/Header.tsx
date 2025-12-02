@@ -5,7 +5,7 @@ import Container from '@/components/Container'
 
 export default function Header() {
   return (
-    <header className="sticky top-0 items-center border-b border-dashed border-zinc-500/10 bg-white/65 backdrop-blur-xs">
+    <header className="sticky top-0 z-10 items-center border-b border-dashed border-zinc-500/10 bg-white/65 backdrop-blur-sm">
       <Container className="flex h-16 items-center justify-between">
         <div className="text-muted-foreground flex items-center gap-x-3">
           <Search className="cursor-pointer transition-colors hover:text-black" />
