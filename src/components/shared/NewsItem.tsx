@@ -23,21 +23,23 @@ export default function NewsItem({
   return (
     <Link
       href={`/news/${id}`}
-      className="transition-all hover:opacity-80"
+      className="w-full transition-all hover:opacity-80"
     >
-      <h2 className="text-muted-foreground">{date}</h2>
-      <h1 className="text-2xl">{title}</h1>
-      <div className="line-clamp-3">{description}</div>
-      <Image
-        className="rounded border"
-        src={image}
-        width={840}
-        height={320}
-        alt={title}
-      />
-      {drawSeparator && (
-        <div className="mt-2 w-full border-b-2 border-dashed" />
-      )}
+      <div className="flex flex-col items-center">
+        <h2 className="text-muted-foreground">{date}</h2>
+        <h1 className="text-2xl font-semibold">{title}</h1>
+        <div className="line-clamp-2 w-1/2">{description}</div>
+        <Image
+          className="rounded border"
+          src={image}
+          width={840}
+          height={320}
+          alt={title}
+        />
+        {drawSeparator && (
+          <div className="mt-2 w-full border-b-2 border-dashed" />
+        )}
+      </div>
     </Link>
   )
 }
