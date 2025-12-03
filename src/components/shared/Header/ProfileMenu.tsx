@@ -2,6 +2,7 @@
 
 import { AuthService } from '@/service/auth-service'
 import { User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '@/components/common/ui/button'
 import {
@@ -19,6 +20,8 @@ import { useCurrent } from '@/hooks/useCurrent'
 export default function ProfileMenu() {
   const { exit } = useAuth()
   const { user, isLoading } = useCurrent()
+
+  const router = useRouter()
 
   async function logout() {
     try {
@@ -44,8 +47,14 @@ export default function ProfileMenu() {
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Admin panel</DropdownMenuItem>
-        <DropdownMenuSeparator />
+        {user?.role?.role === 'ADMIN' && (
+          <>
+            <DropdownMenuItem onClick={() => router.push('/admin')}>
+              Admin panel
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
