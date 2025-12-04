@@ -12,5 +12,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <div>Admin panel</div>
+  return <div className="h-[10000px]">Admiawdawdawdawdwan panel</div>
 }

@@ -6,8 +6,11 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { ScrollArea } from '@/components/common/ui/scroll-area'
 import NewsItem, { NewsItemSkeleton } from '@/components/shared/NewsItem'
+import { useCurrent } from '@/hooks/useCurrent'
 
 export default function NewsList() {
+  const { user } = useCurrent()
+
   const [news, setNews] = useState<TotalNewsModel>()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -30,6 +33,28 @@ export default function NewsList() {
     void fetchNews()
   }, [])
 
+  async function deleteNews(id: string) {
+    if (!news) return
+
+    try {
+      await NewsService.deleteNews(id)
+
+      const upd_news: TotalNewsModel = {
+        news: news.news.filter(i => i.id !== id),
+        total: news?.total - 1,
+      }
+
+      toast.success('Successfully deleted', {
+        description: `news with id: ${id} deleted`,
+      })
+      setNews(upd_news)
+    } catch (e) {
+      if (e instanceof Error) {
+        toast.error('Failed to delete news!', { description: e.message })
+      }
+    }
+  }
+
   return (
     <div className="w-full border-r border-l">
       <div className="flex flex-col items-center justify-center">
@@ -47,6 +72,10 @@ export default function NewsList() {
                 date={news.createdAt}
                 image={`${process.env.NEXT_PUBLIC_S3_SERVER}/${news.image}`}
                 drawSeparator={true}
+                drawDeleteButton={
+                  user !== undefined && user.role?.role === 'ADMIN'
+                }
+                onConfirm={() => deleteNews(news.id)}
               />
             ))}
           </ScrollArea>

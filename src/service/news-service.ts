@@ -14,4 +14,8 @@ export default class NewsService {
   static async getOne(id: string): Promise<AxiosResponse<NewsModel>> {
     return api.get(`/news/${id}`)
   }
+
+  static async deleteNews(id: string) {
+    return api.delete(`/news/delete/${id}`)
+  }
 }
