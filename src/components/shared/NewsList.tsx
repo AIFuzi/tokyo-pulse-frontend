@@ -7,11 +7,12 @@ import { toast } from 'sonner'
 import { ScrollArea } from '@/components/common/ui/scroll-area'
 import NewsItem, { NewsItemSkeleton } from '@/components/shared/NewsItem'
 import { useCurrent } from '@/hooks/useCurrent'
+import { useNewsStore } from '@/store/news.store'
 
 export default function NewsList() {
   const { user, isLoading: isUserLoading } = useCurrent()
+  const { news, setNews } = useNewsStore()
 
-  const [news, setNews] = useState<TotalNewsModel>()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -56,35 +57,31 @@ export default function NewsList() {
   }
 
   return (
-    !isUserLoading && (
-      <div className="w-full border-r border-l">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="m-5 text-3xl font-semibold">Latest news</h1>
-          {isLoading ? (
-            Array.from({ length: 10 }).map((_, i) => (
-              <NewsItemSkeleton key={i} />
-            ))
-          ) : (
-            <ScrollArea className="m-5">
-              {news?.news.map(news => (
-                <NewsItem
-                  key={news.id}
-                  id={news.id}
-                  title={news.title}
-                  description={news.description}
-                  date={news.createdAt}
-                  image={`${process.env.NEXT_PUBLIC_S3_SERVER}/${news.image}`}
-                  drawSeparator={true}
-                  drawDeleteButton={
-                    user !== undefined && user!.role?.role === 'ADMIN'
-                  }
-                  onConfirm={() => deleteNews(news.id)}
-                />
-              ))}
-            </ScrollArea>
-          )}
-        </div>
+    <div className="w-full border-r border-l">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="m-5 text-3xl font-semibold">Latest news</h1>
+        {isLoading && isUserLoading ? (
+          Array.from({ length: 10 }).map((_, i) => <NewsItemSkeleton key={i} />)
+        ) : (
+          <ScrollArea className="m-5">
+            {news?.news.map(news => (
+              <NewsItem
+                key={news.id}
+                id={news.id}
+                title={news.title}
+                description={news.description}
+                date={news.createdAt}
+                image={`${process.env.NEXT_PUBLIC_S3_SERVER}/${news.image}`}
+                drawSeparator={true}
+                drawDeleteButton={
+                  user !== undefined && user!.role?.role === 'ADMIN'
+                }
+                onConfirm={() => deleteNews(news.id)}
+              />
+            ))}
+          </ScrollArea>
+        )}
       </div>
-    )
+    </div>
   )
 }

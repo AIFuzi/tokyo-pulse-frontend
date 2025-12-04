@@ -2,7 +2,6 @@
 
 import { AuthService } from '@/service/auth-service'
 import { User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '@/components/common/ui/button'
 import {
@@ -14,14 +13,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/common/ui/dropdown-menu'
 import { Skeleton } from '@/components/common/ui/skeleton'
+import CreateNewsDialog from '@/components/shared/admin/CreateNewsDialog'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrent } from '@/hooks/useCurrent'
 
 export default function ProfileMenu() {
   const { exit } = useAuth()
   const { user, isLoading } = useCurrent()
-
-  const router = useRouter()
 
   async function logout() {
     try {
@@ -49,8 +47,10 @@ export default function ProfileMenu() {
         <DropdownMenuSeparator />
         {user?.role?.role === 'ADMIN' && (
           <>
-            <DropdownMenuItem onClick={() => router.push('/admin')}>
-              Admin panel
+            <DropdownMenuItem asChild>
+              <CreateNewsDialog>
+                <Button variant="ghost">Create</Button>
+              </CreateNewsDialog>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
