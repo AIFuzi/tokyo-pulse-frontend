@@ -1,3 +1,4 @@
+import { dateFormatter } from '@/lib/util/date-formatter.util'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/common/ui/button'
@@ -27,7 +28,7 @@ export default function NewsItem({
 }: NewsItemProps) {
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-muted-foreground">{date}</h2>
+      <h2 className="text-muted-foreground">{dateFormatter(date)}</h2>
       <Link
         href={`/news/${id}`}
         className="hover:opacity-50"

@@ -1,3 +1,4 @@
+import { dateFormatter } from '@/lib/util/date-formatter.util'
 import { NewsModel } from '@/models/news/news.model'
 import NewsService from '@/service/news-service'
 import { Metadata } from 'next'
@@ -45,7 +46,7 @@ export default async function OneNewsPage({ params }: PageProps) {
         <div className="mt-10 flex flex-col items-center">
           <div className="flex gap-x-3">
             <span className="text-muted-foreground font-semibold">
-              12 april 2025
+              {dateFormatter(news.createdAt)}
             </span>
             <span className="font-semibold">Author: {news.author?.name}</span>
           </div>
