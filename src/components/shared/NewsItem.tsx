@@ -1,18 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/common/ui/alert-dialog'
 import { Button } from '@/components/common/ui/button'
 import { Skeleton } from '@/components/common/ui/skeleton'
+import DeleteConfirmDialog from '@/components/shared/DeleteConfirmDialog'
 
 interface NewsItemProps {
   id: string
@@ -53,34 +43,17 @@ export default function NewsItem({
         alt={title}
       />
       {drawDeleteButton && (
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="destructive"
-              className="mt-2 text-white"
-            >
-              Show Dialog
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete news?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => onConfirm()}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <DeleteConfirmDialog onConfirm={() => onConfirm()}>
+          <Button
+            variant="destructive"
+            className="mt-2 text-white"
+          >
+            Delete news
+          </Button>
+        </DeleteConfirmDialog>
       )}
       {drawSeparator && (
-        <div className="mt-2 w-full border-b-2 border-dashed" />
+        <div className="mt-2 mb-4 h-[1px] w-full bg-black/10" />
       )}
     </div>
   )

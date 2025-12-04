@@ -27,7 +27,7 @@ export function useCurrent() {
     }
 
     void getUser()
-  }, [])
+  }, [isAuth])
 
   return { user, isLoading, error }
 }

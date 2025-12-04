@@ -1,13 +1,14 @@
-import {
-  AlertDialogContent,
-  AlertDialogTitle,
-} from '@radix-ui/react-alert-dialog'
+import { PropsWithChildren } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogPortal,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/common/ui/alert-dialog'
 import { Button } from '@/components/common/ui/button'
@@ -18,20 +19,23 @@ interface DeleteConfirmDialogProps {
 
 export default function DeleteConfirmDialog({
   onConfirm,
-}: DeleteConfirmDialogProps) {
+  children,
+}: PropsWithChildren<DeleteConfirmDialogProps>) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete news</Button>
-      </AlertDialogTrigger>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Delete news?</AlertDialogTitle>
-      </AlertDialogHeader>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete news?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={() => onConfirm()}>
-            Confirm
+            Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
