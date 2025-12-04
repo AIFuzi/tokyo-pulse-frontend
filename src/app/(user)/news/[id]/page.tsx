@@ -42,7 +42,7 @@ export default async function OneNewsPage({ params }: PageProps) {
 
   return (
     news && (
-      <Container>
+      <Container className="mb-16">
         <div className="mt-10 flex flex-col items-center">
           <div className="flex gap-x-3">
             <span className="text-muted-foreground font-semibold">
